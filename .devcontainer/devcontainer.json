@@ -1,0 +1,36 @@
+{
+	// Name of the configuration/environment.
+	"name": "web3400",
+
+	// Specifies the Docker Compose file to be used.
+	"dockerComposeFile": "docker-compose.yml",
+	
+	// Defines the service within the Docker Compose that will be used as the primary application.
+	"service": "app",
+	
+	// Sets the workspace folder inside the container.
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	
+	// List of ports to forward from the container to the host machine.
+	"forwardPorts": [
+		8000, // HTTP port, used for web traffic.
+		3306, // MySQL/MariaDB port, used for database connections.
+		8080 // Custom port, for phpMyAdmin.
+	],
+	
+	// This section is reserved for additional features but is currently empty.
+	"features": {
+	},
+	
+	// Customizations specific to the development environment.
+	"customizations": {
+		"vscode": { // Specifies customizations for Visual Studio Code.
+			"extensions": [ // List of VS Code extensions to be installed in the environment.
+				"ms-azuretools.vscode-docker" //Docker extension for VS Code, helpful for managing Docker containers.
+			]
+		}
+	},
+	
+	// Command to run after the container is created, starts a PHP server on port 80.
+	"postCreateCommand": "php -S 0.0.0.0:8000"
+}

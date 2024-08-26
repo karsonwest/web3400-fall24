@@ -1,0 +1,39 @@
+version: '3.8'  # Specifies the version of the Docker Compose file format.
+
+services: 
+  app:
+    build:  # Defines the build context for the app service.
+      context: .  # The build context is the current directory.
+      dockerfile: Dockerfile  # Specifies which Dockerfile to use for building the image.
+
+    volumes:
+      - ../..:/workspaces:cached  # Mounts a volume from the host to the container.
+
+    # Overrides the default command to keep the container running indefinitely.
+    command: sleep infinity
+
+    # Sets the network mode to use the same network as the database container.
+    # This is important for connectivity between app and database.
+    network_mode: service:db
+
+  db:
+    image: mariadb:latest  # Specifies the MariaDB image to use for the database service.
+    restart: unless-stopped  # Container restart policy.
+    volumes:
+      - mariadb-data:/var/lib/mysql  # Persist database data using a named volume.
+    environment:  # Environment variables for database configuration.
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: web3400
+      MYSQL_USER: web3400
+      MYSQL_PASSWORD: password
+
+  phpmyadmin:
+      image: phpmyadmin/phpmyadmin  # Uses the official phpMyAdmin image.
+      ports:
+        - 8080:80  # Maps port 8080 on the host to port 80 in the container.
+      environment:  # Environment variables for phpMyAdmin configuration.
+        - PMA_HOST=db  # Database host.
+        - PMA_PORT=3306  # Database port.
+
+volumes:
+  mariadb-data:  # Declares a named volume for MariaDB data persistence.
