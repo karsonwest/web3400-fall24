@@ -1,0 +1,108 @@
+/* Basic CSS styling */
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: lightskyblue;
+}
+
+h2 {
+    color: lightskyblue;
+}
+
+/* Styling semantic tags */
+
+header, footer, nav, main, article, aside {
+    border: 1px solid grey;
+    margin: 10px;
+    padding: 10px;
+}
+
+header, footer {
+    background-color: lightgray;
+}
+
+nav {
+    background-color: lightyellow;
+}
+
+
+p {
+    color: gray;
+}
+
+/* Styling text formats and lists */
+
+b, strong {
+    font-weight: bold;
+}
+
+i, em {
+    font-style: italic;
+}
+
+ol, ul {
+    list-style-type: none; /* Removes default list styling */
+    padding: 0;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+/* Styling hyperlinks and images */
+
+a {
+    text-decoration: none;
+    color: navy;
+}
+
+a:hover {
+    color: red;
+}
+
+img {
+    width: 100px;
+    height: auto;
+    border: 1px solid lightskyblue;
+}
+
+/* Styling tables and forms */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 2px solid darkgray;
+    padding: 5px;
+    text-align: left;
+}
+
+form {
+    margin: 20px 0;
+}
+
+input, textarea, button {
+    padding: 15px;
+    margin: 5px 0;
+}
+
+
+/* Advanced styling like flexbox or grid layouts can be introduced here */
+
+main {
+    display: flex;
+    justify-content: space-between;
+}
+
+article {
+    flex: 3;
+}
+
+aside {
+    flex: 1;
+}
