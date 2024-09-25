@@ -10,12 +10,12 @@
     <title>My Webpage</title>
 </head>
 
-<body>
+<body class="has-navbar-fixed-top">
     <!--BEGIN PAGE HEADER-->
-    <header>
+    <header class="container">
 
         <!--BEGIN MAIN NAV-->
-        <nav class="navbar" role="navigation" aria-label="main navigation">
+        <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a href="#">
                     <span class="icon-text">
@@ -49,10 +49,10 @@
         <!--END MAIN NAV-->
         <section><!--ONLY FOR SPACING PURPOSES --></section>
         <!--BEGIN HERO-->
-        <section>
-            <div>
-                <p>Hero title</p>
-                <p>Hero subtitle</p>
+        <section class="hero is-info">
+            <div class="hero-body">
+                <p class="title">Hero title</p>
+                <p class="subtitle">Hero subtitle</p>
             </div>
         </section>
         <!--END HERO-->
@@ -61,8 +61,8 @@
     <!--END PAGE HEADER-->
 
     <!--BEGIN MAIN PAGE CONTENT-->
-    <main>
-        <section>
+    <main class="container">
+        <section class="content">
             <h1>Working with titles</h1>
             <h2>and <strong>subtitles</strong> is a <em>simple</em> way to add context to your message</h2>
             <hr>
@@ -81,7 +81,90 @@
                     <li>First unordered item</li>
                     <li>Second unordered item</li>
                 </ul>
+                <h4>A blockquote:</h4>
+                <blockquote>Ut venenatis, nisl scelerisque sollicitudin fermentum, quam libero hendrerit ipsum, ut
+                blandit est tellus
+                sit amet turpis</blockquote>
+                <h4>A definition list:</h4>
+                <dl>
+                    <dt>Web</dt>
+                    <dd>the part of the Internet that contains websites and web pages</dd>
+                    <dt>HTML</dt>
+                    <dd>A markup language for creating web pages</dd>
+                    <dt>CSS</dt>
+                    <dd>A technology to make HTML look better</dd>
+                </dl>
+                <h4>A simple table:</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>one</th>
+                            <th>two</th>
+                            <th>three</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>four</td>
+                            <td>five</td>
+                            <td>six</td>
+                        </tr>
+                        <tr>
+                            <td>seven</td>
+                            <td>eight</td>
+                            <td>nine</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+        </section>
+        <section class="section">
+            <h2 class="title">Working with tables:</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Header 1</th>
+                        <th>Header 2</th>
+                        <th>Header 3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Data 1</td>
+                        <td>Data 2</td>
+                        <td>Data 3</td>
+                    </tr>
+                    <tr>
+                        <td>Data 1</td>
+                        <td>Data 2</td>
+                        <td>Data 3</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="section">
+            <h2 class="title">Working with Forms</h2>
+            <div class="box">
+                <form action="" method="post">
+                    <div>
+                        <label>Name</label>
+                        <div>
+                            <input name="name" type="text" placeholder="your name">
+                        </div>
+                    </div>
+                    <div>
+                        <label>Message</label>
+                        <div>
+                            <textarea name="message" placeholder="your message"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <button>submit</button>
+                        <button href="#">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
         </section>
     </main>
 </body>
