@@ -146,28 +146,92 @@
             <h2 class="title">Working with Forms</h2>
             <div class="box">
                 <form action="" method="post">
-                    <div>
-                        <label>Name</label>
-                        <div>
+                    <div class="field">
+                        <label class="label">Name</label>
+                        <div class="control">
                             <input name="name" type="text" placeholder="your name">
                         </div>
                     </div>
-                    <div>
-                        <label>Message</label>
-                        <div>
-                            <textarea name="message" placeholder="your message"></textarea>
+                    <div class="field">
+                        <label class="label">Message</label>
+                        <div class="control">
+                            <textarea class="textarea" name="message" placeholder="your message"></textarea>
                         </div>
                     </div>
-                    <div>
-                        <button>submit</button>
-                        <button href="#">Cancel</button>
+                    <div class="control">
+                        <button class="button is-primary">submit</button>
+                        <button class="button is-warning">Cancel</button>
                     </div>
                 </form>
             </div>
 
         </section>
-    </main>
-</body>
+        <section class="section">
+            <div class="block">
+                <h2 class="title">Working with buttons and hyperlinks</h2>
+                <button class="button is-link" href="https://weber.edu">I'm a button link</button>
+            </div>
+            <div class="block">
+                <a class="button is-danger" href="#">
+                    <span class="icon">
+                        <i class="fas fa-home"></i>
+                    </span>
+                    <span>I'm a button with an icon</span>
+                </a>
+            </div>
+            <div class="block">
+                <a href="https://weber.edu">I'm a text with a link</a>
+            </div>
+        </section>
 
+        <section class="section">
+            <h2 class="title">Working with Messages and Notifications</h2>
+            <div class="message is-info">
+                <div class="message-header">
+                    <p>I'm a message box with a close/exit button</p>
+                    <button class="delete"></button>
+                </div>
+                <div class="message-body">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.<strong>Pellentesque risus mi</strong>,
+                    tempes quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam
+                    gravida purus diam, et dictum <a>felis venenatis</a> efficitur. Aenean ac <em>eleifend lacus</em>,
+                    in mollis lectus. Donec sodales, arcu et sollicitudin portitor.
+                </div>
+            </div>
+            <div class="notification is-danger is-light">
+                <button class="delete"></button>
+                <strong>I'm a notification box with a close/exit button.</strong> Primar lorem ipsum dolor sit amet,
+                consectetur adipiscing elit lorem ipsum dolor. <strong>Pellentesque risus mi</strong>, tempes quis
+                placerat ut, porta nec nulla. Vestibulum rhoncus ac ac ex sit amet fringilla. Nullam gravida purus diam, et
+                dictum <a>felis venenatis</a> efficitur.
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="title">Working with images</h2>
+            <img src="https://picsum.photos/320" alt="descriptive text for the image" width="320"
+                height="320">
+            <hr>
+            <figure class="image is-128x128">
+                <img src="https://picsum.photos/128">
+            </figure>
+            <hr>
+            <figure class="image is-128x128">
+                <img class="is-rounded" src="https://picsum.photos/128">
+            </figure>
+        </section>
+    </main>
+    <!-- END MAIN PAGE CONTENT-->
+
+    <!-- BEGIN PAGE FOOTER-->
+     <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>My Webpage</strong> by <a href="#">Karson West</a>. The source code is licensed under MIT.
+            </p>
+        </div>
+     </footer>
+     <!-- END PAGE FOOTER -->
+</body>
 
 </html>
