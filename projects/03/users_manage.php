@@ -16,7 +16,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
 
 // Step 4: Execute the query
 // ex. $stmt->execute();
-    $stmt->execute([$_SESSION['user_id']]);
+    $stmt->execute();
 
 // Step 5: Fetch and store the results in the $users associative array
 // ex. $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -24,6 +24,16 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
 
 // Step 6: Check if the query returned any rows. If not, display the message: "There are no user records in the database."
 // ex. if (!$users) {...}
+
+// Check if there were rows returned (!$users) means if no users, then display session message, and return to admin_dashboard
+if (!$users) {
+    $_SESSION['messages'][] = "There are no user records in the database.";
+    header('Location: admin_dashboard.php');
+    exit; 
+
+    
+}
+
 ?>
 
 <?php include 'templates/head.php'; ?>
