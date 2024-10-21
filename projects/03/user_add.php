@@ -17,7 +17,7 @@ redirect back to the `users_manage.php` page with the message "The user account 
 They will need to login to activate their account." 
 */
 
-//code from register.php (to add a user)
+//part of code from register.php (to add a user)
 // Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Extract, sanitize user input, and assign data to variables
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         //Email is unique, proceed with inserting the new user record
         $insertStmt = $pdo->prepare("INSERT INTO `users`(`full_name`, `email`, `pass_hash`, `phone`, `role`) VALUES (?, ?, ?, ?, ?)");
-        $insertStmt->execute([$full_name, $email, $password, $phone, $sms, $subscribe, $activation_code, $user_bio]);
+        $insertStmt->execute([$full_name, $email, $password, $phone, $role]);
 
         // Create a successful "add user" message.
         $_SESSION['messages'][] = "The user account for $full_name was successfully created. They will need to login to activate their account.";

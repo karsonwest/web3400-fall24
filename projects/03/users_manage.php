@@ -30,7 +30,7 @@ if (!$users) {
     $_SESSION['messages'][] = "There are no user records in the database.";
     header('Location: admin_dashboard.php');
     exit; 
-
+// by exiting, goes to html code below, which includes the type of user data that can be managed. 
     
 }
 

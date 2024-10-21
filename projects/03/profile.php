@@ -45,7 +45,7 @@ try {
                     </figure>
                 </div>
                 <div class="media-content">
-                    <p class="title"><?= $user['full_name'] ?></p>
+                    <p class="title"><?= $user['full_name'] ?> **| <span class="tag is-info is-medium"><?= $user['role'] ?></span>**</p>
                     <p class="subtitle"><?= $user['email'] ?></p>
                     <p class="subtitle"><?= $user['phone'] ?></p>
                 </div>
