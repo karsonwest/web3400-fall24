@@ -15,33 +15,31 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Extract, sanitize user input, and assign data to variables
     $full_name = htmlspecialchars($_POST['full_name']);
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Encrypt password
     $phone = htmlspecialchars($_POST['phone']);
     $user_bio = htmlspecialchars($_POST['user_bio']); // Extract and sanitize user bio
 
-    // Check if the email is unique
-    $stmt = $pdo->prepare("SELECT * FROM `users` WHERE `email` = ?");
-    $stmt->execute([$email]);
-    $userExists = $stmt->fetch();
-
-    if ($userExists) {
-        // Email already exists, prompt the user to choose another
-        $_SESSION['messages'][] = "That email already exists. Please choose another or reset your passowrd";
-        header('Location: register.php');
-        exit;
-// Step 4: Else it's an initial page request, fetch the user's current data from the database by preparing and executing a SQL statement that uses the user gets the user id from the query string (ex. $_GET['id'])
     // Update user record in the database
+    $stmt = $pdo->prepare("UPDATE `users` SET `full_name` = ?,`phone` = ?, `user_bio` = ? WHERE `id` = ?");
+    $stmt->execute([$full_name, $phone, $user_bio, $_SESSION['id']]);
+
+    // updated success message
+    $_SESSION['messages'][] = "The profile for $full_name was successfully updated.";
+    header('Location: users_manage.php');
+    exit;
+ 
+// Step 4: Else it's an initial page request, fetch the user's current data from the database by preparing and executing a SQL statement that uses the user gets the user id from the query string (ex. $_GET['id'])
     } else {
-      
-        $stmt = $pdo->prepare("UPDATE `users` SET `full_name` = ?, `email` = ?, `pass_hash` = ?, `phone` = ?, `user_bio` = ? WHERE `id` = ?");
-        $stmt->execute([$full_name, $email, $password, $phone, $user_bio, $_SESSION['user_id']]);
-
-
-        // Create an activation link message
-        $_SESSION['messages'][] = "The profile for $full_name was successfully updated.";
+      if (isset($_GET['id'])) {
+        $stmt = $pdo->prepare("SELECT * FROM `users` WHERE `id` = ?");
+        $stmt->execute([$_GET['id']]);
+        $user = $stmt->fetch();
+      } else {
+        $_SESSION['messages'][] = "No user with that ID was found in the database.";
+        header('Location: users_manage.php');
+        exit;
+      }
     }
-}
+
 
 
 ?>
