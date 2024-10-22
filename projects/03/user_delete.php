@@ -15,26 +15,33 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
 // If a user record with that ID does not exist, display the message 
 //"A user with that ID did not exist."
 if (isset($_GET['id'])) {
-    $user_id = $_GET['id'];
-    $stmt = $pdo->prepare("SELECT * FROM `users` WHERE `id` = ?");
-    $stmt->execute([$_SESSION['user_id']]);
-    $user = $stmt->fetch();
+    $stmt = $pdo->prepare('SELECT * FROM users WHERE id = ?');
+    $stmt->execute([$_GET['id']]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-} else {
-    $_SESSION['messages'][] = "A user with that ID did not exist.";
-}
+
+    if (!$user) {
+        $_SESSION['messages'][] = "A user with that ID did not exist.";
+    }
 // Step 4: Check if $_GET['confirm'] == 'yes'. This means they clicked the 'yes' button to confirm the removal of the record. Prepare and execute a SQL DELETE statement where the user id == the $_GET['id']. Else (meaning they clicked 'no'), return them to the users_manage.php page.
 if (isset($_GET['confirm'])) {
     if ($_GET['confirm'] == 'yes') {
 // "DELETE FROM `users` WHERE ?"
-    $stmt = $pdo->prepare("DELETE FROM `users` WHERE `id` = ?");
-    $stmt->execute([$_SESSION['user_id']]);
+    $stmt = $pdo->prepare('DELETE FROM users WHERE id = ?');
+    $stmt->execute([$_GET['id']]);
+    $_SESSION['messages'][] = "You deleted the account for user {$user['full_name']}";
     header('Location: users_manage.php');
     exit;
     } else {
         header('Location: users_manage.php');
+        exit;
     }
 }
+
+} else {
+    $_SESSION['messages'][] = "NO ID was found.";
+}
+
 ?>
 
 <?php include 'templates/head.php'; ?>

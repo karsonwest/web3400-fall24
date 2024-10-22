@@ -13,14 +13,14 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
 // Step 3: Check if the update form was submitted. If so, update user details. Similar steps as in user_add.php but with an UPDATE SQL query
 // Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Extract, sanitize user input, and assign data to variables
-    $full_name = htmlspecialchars($_POST['full_name']);
-    $phone = htmlspecialchars($_POST['phone']);
-    $user_bio = htmlspecialchars($_POST['user_bio']); // Extract and sanitize user bio
+    // retrieve form data 
+    $full_name = $_POST['full_name'];
+    $phone = $_POST['phone'];
+    $role = $_POST['role']; 
 
     // Update user record in the database
-    $stmt = $pdo->prepare("UPDATE `users` SET `full_name` = ?,`phone` = ?, `user_bio` = ? WHERE `id` = ?");
-    $stmt->execute([$full_name, $phone, $user_bio, $_SESSION['id']]);
+    $stmt = $pdo->prepare("UPDATE `users` SET `full_name` = ?,`phone` = ?, `role` = ? WHERE `id` = ?");
+    $stmt->execute([$full_name, $phone, $role, $_POST['id']]);
 
     // updated success message
     $_SESSION['messages'][] = "The profile for $full_name was successfully updated.";
