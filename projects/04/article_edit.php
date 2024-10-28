@@ -11,36 +11,34 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
 
 // Step 3: Check if the update form was submitted. If so, update article details using an UPDATE SQL query.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') { //similar to the other updates we have done, just see if it has been posted. checking these arrays/fields 
-    $id = $_POST['id'];
-    $title = $_POST['title'];
-    $content = $_POST['content'];
+    // form data
+    $title = htmlspecialchars($_POST['title']);
+    $content = htmlspecialchars($_POST['content']);
+
     // if submitted, update the artcile with the SQL query (based off fields above)
-    $stmt = $pdo->prepare('UPDATE articles SET title = ?, content = ?, modified_on = NOW() WHERE id = ?');
-    $stmt->execute([$title, $content, $id]);
+    $stmt = $pdo->prepare("UPDATE `articles` SET `title`= ?, `content`= ?, WHERE `id` = ?");
+    $stmt->execute([$title, $content, $_GET['id']]);
 
     $_SESSION['messages'][] = "Article updated successfully.";
     header('Location: articles.php');
     exit;
-}
-
-
+} else {
 // Step 4: Else it's an initial page request, fetch the article's current data from the database by preparing 
 //and executing a SQL statement that uses the article id from the query string (ex. $_GET['id'])
 
 //similar to what we had in articles, get the ID information, select the articles from the database, verbatim code as if we are adding a new one. 
 if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $stmt = $pdo->prepare('SELECT * FROM articles WHERE id = ?');
-    $stmt->execute([$id]);
-    $article = $stmt->fetch(PDO::FETCH_ASSOC);
+    // user info from database
+    $stmt = $pdo->prepare("SELECT * FROM `articles` WHERE `id` = ?");
+    $stmt->execute([$_GET['id']]);
+    $article = $stmt->fetch();
 
-    if (!$article) {
-        $_SESSION['messages'][] = "An article with that ID did not exist.";
-        header('Location: articles.php');
-        exit;
-    }
+ } else {
+    $_SESSION['messages'][] = "No article with that ID was found in the database";
+    header('Location: articles.php');
+    exit;
 }
-
+}
 ?>
 
 <?php include 'templates/head.php'; ?>

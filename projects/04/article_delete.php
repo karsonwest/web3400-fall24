@@ -12,28 +12,30 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
 
 // Step 3: Check if the $_GET['id'] exists; if it does, get the article record from the database and store it in the associative array $article. If an article with that ID does not exist, display "An article with that ID did not exist."
 if (isset($_GET['id'])) {
-    $id = $_GET['id'];
     $stmt = $pdo->prepare('SELECT * FROM articles WHERE id = ?');
-    $stmt->execute([$id]);
+    $stmt->execute([$_GET['id']]);
     $article = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$article) {
         $_SESSION['messages'][] = "An article with that ID did not exist.";
+    }
+
+// Step 4: Check if $_GET['confirm'] == 'yes'. This means they clicked the 'yes' button to confirm the removal of the record. Prepare and execute a SQL DELETE statement where the article id == the $_GET['id']. Else (meaning they clicked 'no'), return them to the articles.php page.
+//similar to the user_delete, check comments there
+if (isset($_GET['confirm'])) {
+    if ($_GET['confirm'] == 'yes') {
+        $stmt = $pdo->prepare('DELETE FROM articles WHERE id = ?');
+        $stmt->execute([$_GET['id']]);
+        $_SESSION['messages'][] = "Article deleted successfully.";
+        header('Location: articles.php');
+        exit;
+    } else {
         header('Location: articles.php');
         exit;
     }
 }
-
-
-// Step 4: Check if $_GET['confirm'] == 'yes'. This means they clicked the 'yes' button to confirm the removal of the record. Prepare and execute a SQL DELETE statement where the article id == the $_GET['id']. Else (meaning they clicked 'no'), return them to the articles.php page.
-//similar to the user_delete, check comments there
-if (isset($_GET['confirm']) && $_GET['confirm'] === 'yes') {
-    $stmt = $pdo->prepare('DELETE FROM articles WHERE id = ?');
-    $stmt->execute([$id]);
-
-    $_SESSION['messages'][] = "Article deleted successfully.";
-    header('Location: articles.php');
-    exit;
+} else {
+    $_SESSION['messages'][] = "No ID was found";
 }
 ?>
 

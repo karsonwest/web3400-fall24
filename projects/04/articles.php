@@ -29,27 +29,30 @@ if (!$articles) {
     exit; 
 }
 // Step 7: If the 'is_published' control is clicked, toggle the status from 0 -> 1 for published or 1 -> 0 for unpublished
-if (isset($_GET['id']) && isset($_GET['is_published'])) { //for is_published
-    $id = $_GET['id']; //Get id
-    $is_published = $_GET['is_published'] == 1 ? 0 : 1; //setting is_published status as 1, (checking to see if 1 already)
-    $stmt = $pdo->prepare('UPDATE articles SET is_published = ? WHERE id = ?'); // updating in database 
-    $stmt->execute([$is_published, $id]); //execute
-    header('Location: articles.php'); //bring back to articles.php
-    exit;
-}
+if (isset($_GET['id']) && isset($_GET['is_published'])) {
+    $is_published = $_GET['is_published'] == 1 ? 0 : 1;
+    $published = $is_published == 1 ? "published" : "un_published";
 
-
-// Step 8: If the 'is_featured' control is clicked, toggle the status from 0 -> 1 for featured or 1 -> 0 for unfeatured
-// same code as 7, just change code for is_featured
-if (isset($_GET['id']) && isset($_GET['is_featured'])) {
-    $id = $_GET['id'];
-    $is_featured = $_GET['is_featured'] == 1 ? 0 : 1;
-    $stmt = $pdo->prepare('UPDATE articles SET is_featured = ? WHERE id = ?');
-    $stmt->execute([$is_featured, $id]);
+    // toggle
+    $stmt = $pdo->prepare("UPDATE `articles` SET `is_published`= ? WHERE `id`= ?");
+    $stmt->execute([$is_published, $_GET['id']]);
+    $_SESSION['messages'][] = "Your article is $published.";
     header('Location: articles.php');
     exit;
 }
+// Step 8: If the 'is_featured' control is clicked, toggle the status from 0 -> 1 for featured or 1 -> 0 for unfeatured
+// same code as 7, just change code for is_featured
+if (isset($_GET['id']) && isset($_GET['is_featured'])) {
+    $is_featured = $_GET['is_featured'] == 1 ? 0 : 1;
+    $featured = $is_featured == 1 ? "featured" : "not featured";
 
+    // toggle 
+    $stmt = $pdo->prepare("UPDATE `articles` SET `is_featured`= ? WHERE `id`= ?");
+    $stmt->execute([$is_featured, $_GET['id']]);
+    $_SESSION['messages'][] = "Your article is $featured.";
+    header('Location: articles.php');
+    exit;
+}
 ?>
 
 <?php include 'templates/head.php'; ?>

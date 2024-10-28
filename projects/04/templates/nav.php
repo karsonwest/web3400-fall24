@@ -28,8 +28,7 @@
                     <div class="navbar-item">
                         <div class="buttons">
                             <a href="contact.php" class="button is-light">Contact Us</a>
-<!-- BEGIN USER MENU -->
-
+                            <!-- BEGIN USER MENU -->
    <?php if (isset($_SESSION['loggedin'])) : ?>
       <div class="navbar-item has-dropdown is-hoverable">
          <a class="button navbar-link">
@@ -75,24 +74,24 @@
         <!--END MAIN NAV-->
         <section><!--ONLY FOR SPACING PURPOSES --></section>
         <?php if ($_SERVER['PHP_SELF'] == '/index.php') : ?>
-<!-- BEGIN HERO -->
-<section class="hero is-info">
+  <!-- BEGIN HERO -->
+  <section class="hero is-info">
     <div class="hero-body">
       <p class="title">
-      Do you wish to secure peace and prosperity to the Galaxy?
+        Do you want to bring peace and order to the Galaxy?
       </p>
       <p class="subtitle">
-        The Empire is here to accomplish these ambitions. 
+        The Empire has the resources to accomplish this goal
       </p>
       <a href="contact.php" class="button is-medium is-info is-light is-rounded">
         <span class="icon is-large">
           <i class="fab fa-2x fa-pagelines"></i>
         </span>
-        <span>Enlist to the Empire today!!</span>
+        <span>Enlist in the Empire today</span>
       </a>
     </div>
   </section>
-<!-- END HERO -->
+  <!-- END HERO -->
 <?php endif; ?>
 
         <!--START USER MESSAGE -->

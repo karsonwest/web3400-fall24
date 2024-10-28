@@ -18,20 +18,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $content = htmlspecialchars($_POST['content']);
 
     // SQL insert query 
-    $stmt = $pdo->prepare("INSERT INTO articles (`author_id`, `title`, `content`) VALUES (?, ?, ?)");
+    $insertStmt = $pdo->prepare("INSERT INTO `articles` (`author_id`, `title`, `content`) VALUES (?, ?, ?)");
+    $insertStmt->execute([$user_id, $title, $content]);
 
-    // execute
-    if ($stmt->execute([$_SESSION['user_id'], $title, $content])) {
-        $_SESSION['messages'][] = "The article was successfully added.";
-        header('Location: articles.php');
-        exit;
-    } else {
-        // error message
-        $_SESSION['messages'][] = "Failed to add the article. Please try again.";
-    }
+    $_SESSION['messages'][] = "Your blog post was created.";
+    header('Location: articles.php');
+    exit;
 }
-
 ?>
+<?php include 'templates/head.php'; ?>
+<?php include 'templates/nav.php'; ?>
 
 <!-- BEGIN YOUR CONTENT -->
 <section class="section">
@@ -62,4 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </form>
 </section>
+
+<?php include 'templates/footer.php'; ?>
+
 <!-- END YOUR CONTENT -->

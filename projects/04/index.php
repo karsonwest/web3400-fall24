@@ -1,17 +1,12 @@
-
 <?php
 // Include config.php file
 include 'config.php';
-
 // Prepare the SQL query to select all articles from the database that are published and sort them in reverse chronological order (DESC)
 $stmt = $pdo->prepare('SELECT articles.*, users.full_name AS author FROM articles JOIN users ON articles.author_id = users.id WHERE is_published = 1 AND is_featured = 1 ORDER BY articles.created_at DESC LIMIT 10');
-
 // Execute the query
 $stmt->execute();
-
 // Fetch and store the results in the $articles associative array
 $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 // Check if the query returned any rows. If not, display a message.
 if (!$articles) {
     $_SESSION['messages'][] = "There are no articles in the database.";
