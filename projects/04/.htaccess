@@ -1,0 +1,8 @@
+# Enable PHP display errors
+php_flag display_errors on
+
+# Secure config.php
+<Files config.php>
+Order Deny, Allow
+Deny from all
+</Files>
