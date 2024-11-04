@@ -44,19 +44,19 @@ if (!$articles) {
                         </p>
                     </div>
                     <p class="buttons">
-                        <a class="button is-small is-rounded">
+                        <a class="button is-small is-rounded is-static">
                             <span class="icon is-small">
                                 <i class="fas fa-thumbs-up"></i>
                             </span>
                             <span><?= $article['likes_count'] ?></span>
                         </a>
-                        <a class="button is-small is-rounded">
-                            <span class="icon is-small">
+                        <a class="button is-small is-rounded is-static">
+                             <span class="icon is-small">
                                 <i class="fas fa-star"></i>
                             </span>
                             <span><?= $article['favs_count'] ?></span>
                         </a>
-                        <a class="button is-small is-rounded">
+                        <a class="button is-small is-rounded is-static">
                             <span class="icon is-small">
                                 <i class="fas fa-comment"></i>
                             </span>

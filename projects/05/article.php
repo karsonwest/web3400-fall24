@@ -20,6 +20,11 @@ if (isset($_GET['id'])) {
     $_SESSION['messages'][] = "An article with that ID does not exist.";
 }
 
+// Fetch comments for the article
+$stmt = $pdo->prepare('SELECT user_interactions.comment, user_interactions.created_at, users.full_name AS user_name FROM user_interactions JOIN users ON user_interactions.user_id = users.id WHERE user_interactions.article_id = ? AND user_interactions.interaction_type = "comment" ORDER BY user_interactions.created_at DESC LIMIT 5');
+$stmt->execute([$article['id']]);
+$comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <?php include 'templates/head.php'; ?>
@@ -58,28 +63,70 @@ if (isset($_GET['id'])) {
                     </a>
                 </p>
                 <p class="buttons">
-                    <a class="button is-small is-rounded">
-                        <span class="icon is-small">
-                            <i class="fas fa-thumbs-up"></i>
-                        </span>
-                        <span><?= $article['likes_count'] ?></span>
-                    </a>
-                    <a class="button is-small is-rounded">
-                        <span class="icon is-small">
-                            <i class="fas fa-star"></i>
-                        </span>
-                        <span><?= $article['favs_count'] ?></span>
-                    </a>
-                    <a class="button is-small is-rounded">
-                        <span class="icon is-small">
-                            <i class="fas fa-comment"></i>
-                        </span>
-                        <span><?= $article['comments_count'] ?></span>
-                    </a>
-                </p>
+    <!-- Like Button -->
+    <a href="article_like.php?id=<?= $article['id'] ?>" class="button is-small is-rounded" <?= !isset($_SESSION['loggedin']) ? 'disabled' : '' ?>>
+        <span class="icon is-small">
+            <i class="fas fa-thumbs-up"></i>
+        </span>
+        <span><?= $article['likes_count'] ?></span>
+    </a>
+    <!-- Favorite Button -->
+    <a href="article_favorite.php?id=<?= $article['id'] ?>" class="button is-small is-rounded" <?= !isset($_SESSION['loggedin']) ? 'disabled' : '' ?>>
+        <span class="icon is-small">
+            <i class="fas fa-star"></i>
+        </span>
+        <span><?= $article['favs_count'] ?></span>
+    </a>
+    <!-- Comments Count -->
+    <a href="#comments" class="button is-small is-rounded" <?= !isset($_SESSION['loggedin']) ? 'disabled' : '' ?>>
+        <span class="icon is-small">
+            <i class="fas fa-comment"></i>
+        </span>
+        <span><?= $article['comments_count'] ?></span>
+    </a>
+</p>
             </div>
         </article>
     </div>
+</section>
+
+<!-- Comments Section -->
+<section id="comments" class="section">
+  <!-- Comment Form -->
+  <?php if (isset($_SESSION['user_id'])) : ?>
+  <form action="article_comment.php" method="post">
+    <input type="hidden" name="article_id" value="<?= $article['id'] ?>">
+    <div class="field">
+      <label class="label">Add a comment</label>
+      <div class="control">
+        <textarea class="textarea" name="comment" required></textarea>
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <button type="submit" class="button is-primary">Submit Comment</button>
+      </div>
+    </div>
+  </form>
+  <?php endif; ?>
+  <hr>
+  <h2 class="title is-4">Comments</h2>
+  <!-- Display the five most recent comments -->
+  <?php foreach ($comments as $comment) : ?>
+  <article class="media">
+    <div class="media-content">
+      <div class="content">
+        <p>
+          <strong><?= $comment['user_name'] ?></strong>
+          <br>
+          <?= $comment['comment'] ?>
+          <br>
+          <small><?= time_ago($comment['created_at']) ?></small>
+        </p>
+      </div>
+    </div>
+  </article>
+  <?php endforeach; ?>
 </section>
 
 <?php include 'templates/footer.php'; ?>

@@ -29,6 +29,11 @@ try {
     die("Database error occurred: " . $e->getMessage());
 }
 
+// Fetch user interactions along with article titles
+$stmt = $pdo->prepare('SELECT user_interactions.*, articles.title AS article_title FROM user_interactions JOIN articles ON user_interactions.article_id = articles.id WHERE user_id = ? ORDER BY user_interactions.created_at DESC');
+$stmt->execute([$_SESSION['user_id']]);
+$interactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <?php include 'templates/head.php'; ?>
 <?php include 'templates/nav.php'; ?>
@@ -62,6 +67,31 @@ try {
             <a href="profile_update.php" class="card-footer-item">Edit</a>
         </footer>
     </div>
+</section>
+
+<!-- My interactions section -->
+<section class="section">
+  <h2 class="title is-4">My Interactions</h2>
+  <?php foreach ($interactions as $interaction) : ?>
+  <div class="box">
+    <article class="media">
+      <div class="media-content">
+        <div class="content">
+          <p>
+            <strong><?= ucfirst($interaction['interaction_type']) ?>:</strong>
+            <?php if ($interaction['interaction_type'] === 'comment') : ?>
+            <a href="article.php?id=<?= $interaction['article_id'] ?>"><?= $interaction['article_title'] ?></a>
+            <?php else : ?>
+            <a href="article.php?id=<?= $interaction['article_id'] ?>"><?= $interaction['article_title'] ?></a>
+            <?php endif; ?>
+            <br>
+            <small><?= time_ago($interaction['created_at']) ?></small>
+          </p>
+        </div>
+      </div>
+    </article>
+  </div>
+  <?php endforeach; ?>
 </section>
 <!-- END YOUR CONTENT -->
 
