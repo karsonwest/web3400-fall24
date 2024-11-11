@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { //similar to the other updates we h
     $content = htmlspecialchars($_POST['content']);
 
     // if submitted, update the artcile with the SQL query (based off fields above)
-    $stmt = $pdo->prepare("UPDATE `articles` SET `title`= ?, `content`= ?, WHERE `id` = ?");
+    $stmt = $pdo->prepare("UPDATE `articles` SET `title`= ?,`content`= ? WHERE `id` = ?");
     $stmt->execute([$title, $content, $_GET['id']]);
 
     $_SESSION['messages'][] = "Article updated successfully.";

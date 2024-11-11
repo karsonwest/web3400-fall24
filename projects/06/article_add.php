@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // SQL insert query 
     $insertStmt = $pdo->prepare("INSERT INTO `articles` (`author_id`, `title`, `content`) VALUES (?, ?, ?)");
-    $insertStmt->execute([$user_id, $title, $content]);
+    $insertStmt->execute([$_SESSION['user_id'], $title, $content]);
 
     $_SESSION['messages'][] = "Your blog post was created.";
     header('Location: articles.php');

@@ -1,6 +1,7 @@
 <?php
 // Step 1: Include config.php file
 include 'config.php';
+
 // Step 2: Secure and only allow 'admin' users to access this page
 if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
     // Redirect user to login page or display an error message
@@ -9,55 +10,49 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
     exit;
 }
 
+
 // Step 3: Prepare the SQL query template to select all posts from the database
-// ex. $stmt = $pdo->prepare('SELECT articles.*, users.full_name AS author FROM articles JOIN users ON articles.author_id = users.id ORDER BY `created_at` DESC');
 $stmt = $pdo->prepare('SELECT articles.*, users.full_name AS author FROM articles JOIN users ON articles.author_id = users.id ORDER BY `created_at` DESC');
 
 // Step 4: Execute the query
-// ex. $stmt->execute();
 $stmt->execute();
 
 // Step 5: Fetch and store the results in the $articles associative array
-// ex. $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Step 6: Check if the query returned any rows. If not, display the message: "There are no articles in the database."
-// ex. if (!$articles) {...}
 if (!$articles) {
     $_SESSION['messages'][] = "There are no articles in the database.";
-    // could have a return location message located here, see if we need one. If not, leave blank. 
-    exit; 
 }
+
 // Step 7: If the 'is_published' control is clicked, toggle the status from 0 -> 1 for published or 1 -> 0 for unpublished
 if (isset($_GET['id']) && isset($_GET['is_published'])) {
     $is_published = $_GET['is_published'] == 1 ? 0 : 1;
     $published = $is_published == 1 ? "published" : "un_published";
 
-    // toggle
-    $stmt = $pdo->prepare("UPDATE `articles` SET `is_published`= ? WHERE `id`= ?");
+    // Toggle the value in the is_published field in the database
+    $stmt = $pdo->prepare("UPDATE `articles` SET `is_published`= ? WHERE `id` = ?");
     $stmt->execute([$is_published, $_GET['id']]);
     $_SESSION['messages'][] = "Your article is $published.";
     header('Location: articles.php');
     exit;
 }
 // Step 8: If the 'is_featured' control is clicked, toggle the status from 0 -> 1 for featured or 1 -> 0 for unfeatured
-// same code as 7, just change code for is_featured
 if (isset($_GET['id']) && isset($_GET['is_featured'])) {
     $is_featured = $_GET['is_featured'] == 1 ? 0 : 1;
     $featured = $is_featured == 1 ? "featured" : "not featured";
 
-    // toggle 
-    $stmt = $pdo->prepare("UPDATE `articles` SET `is_featured`= ? WHERE `id`= ?");
+    // Toggle the value in the is_published field in the database
+    $stmt = $pdo->prepare("UPDATE `articles` SET `is_featured`= ? WHERE `id` = ?");
     $stmt->execute([$is_featured, $_GET['id']]);
     $_SESSION['messages'][] = "Your article is $featured.";
     header('Location: articles.php');
     exit;
 }
-?>
 
+?>
 <?php include 'templates/head.php'; ?>
 <?php include 'templates/nav.php'; ?>
-
 <!-- BEGIN YOUR CONTENT -->
 <section class="section">
     <h1 class="title">Articles</h1>
@@ -119,7 +114,5 @@ if (isset($_GET['id']) && isset($_GET['is_featured'])) {
         </tbody>
     </table>
 </section>
-
-<?php include 'templates/footer.php'; ?>
-
 <!-- END YOUR CONTENT -->
+<?php include 'templates/footer.php'; ?>
