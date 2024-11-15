@@ -1,15 +1,59 @@
 <?php
 // Include config.php file
+include 'config.php';
 
-// Secure and only allow 'admin' users to access this page
+// Secure and only allow 'admin' users to access this page\if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
+    if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
+        // Redirect user to login page or display an error message
+        $_SESSION['messages'][] = "You must be an administrator to access that resource.";
+        header('Location: login.php');
+        exit;
+    }
 
-// Check if the $_GET['id'] exists; if it does, get the ticket record from the database and store it in the associative array named $ticket.
+//1 Check if the $_GET['id'] exists; if it does, get the ticket record from the database and store it in the associative array named $ticket.
+if (isset($_GET['id'])) {
+    $ticket_id = $_GET['id'];
+    $stmt = $pdo->prepare("SELECT * FROM tickets WHERE id = ?");
+    $stmt->execute([$ticket_id]);
+    $ticket = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Fetch comments for the ticket
+    if (!$ticket) {
+        $_SESSION['messages'][] = "Ticket not found.";
+        header('Location: tickets.php');
+        exit;
+    }
+} else {
+    $_SESSION['messages'][] = "No ticket ID provided.";
+    header('Location: tickets.php');
+    exit;
+}
 
-// Update ticket status when the user clicks the status link
+//2 Fetch comments for the ticket
+$comments_stmt = $pdo->prepare("SELECT * FROM comments WHERE ticket_id = ? ORDER BY created_at DESC");
+$comments_stmt->execute([$ticket_id]);
+$comments = $comments_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Check if the comment form has been submitted. If true, then INSERT the ticket comment
+//3 Update ticket status when the user clicks the status link
+if (isset($_GET['status'])) {
+    $new_status = $_GET['status'];
+    $update_stmt = $pdo->prepare("UPDATE tickets SET status = ? WHERE id = ?");
+    $update_stmt->execute([$new_status, $ticket_id]);
+
+    $_SESSION['messages'][] = "Ticket status updated to $new_status.";
+    header("Location: ticket_detail.php?id=$ticket_id");
+    exit;
+}
+
+//4 Check if the comment form has been submitted. If true, then INSERT the ticket comment
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['msg'])) {
+    $comment = $_POST['msg'];
+    $insert_stmt = $pdo->prepare("INSERT INTO `comments` (`ticket_id`, `comment`, `created_at`) VALUES (?, ?, NOW())");
+    $insert_stmt->execute([$ticket_id, $comment]);
+
+    $_SESSION['messages'][] = "Comment added.";
+    header("Location: ticket_detail.php?id=$ticket_id");
+    exit;
+}
 ?>
 
 <?php include 'templates/head.php'; ?>

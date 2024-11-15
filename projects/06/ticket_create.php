@@ -1,9 +1,32 @@
 <?php
 // Include config.php file
+include 'config.php';
 
 // Secure and only allow 'admin' users to access this page
+if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
+    // Redirect user to login page or display an error message
+    $_SESSION['messages'][] = "You must be an administrator to access that resource.";
+    header('Location: login.php');
+    exit;
+}
 
-// If the form was submitted, insert a new ticket into the database and redirect back to the `tickets.php` page with the message "The ticket was successfully added."
+//If the form was submitted, insert a new ticket into the database and redirect back to the `tickets.php` page 
+// with the message "The ticket was successfully added."
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // extract and sanitize the form data
+    $title = htmlspecialchars($_POST['title']);
+    $description = htmlspecialchars($_POST['description']);
+    $priority = htmlspecialchars($_POST['priority']);
+
+    // Insert the new ticket into the database / SQL query 
+    $stmt = $pdo->prepare("INSERT INTO `tickets` (`title`, `description`, `priority`) VALUES (?, ?, ?)");
+    $stmt->execute([$title, $description, $priority]);
+
+    // Success message
+    $_SESSION['messages'][] = "The ticket was successfully added.";
+    header('Location: tickets.php');
+    exit;
+}
 
 ?>
 

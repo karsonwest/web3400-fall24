@@ -1,15 +1,27 @@
 <?php
 // Include config.php file
+include 'config.php';
 
 // Secure and only allow 'admin' users to access this page
+if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
+    // Redirect user to login page or display an error message
+    $_SESSION['messages'][] = "You must be an administrator to access that resource.";
+    header('Location: login.php');
+    exit;
+}
 
 // Prepared statement that retrieves all the tickets in descending order by creation date from the tickets table
 
 // Execute the query
+$stmt->execute();
 
 // Fetch and store the results in the $tickets associative array
+$articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Check if the query returned any rows. If not, display the message: "There are no tickets in the database."
+if (!$tickets) {
+    $_SESSION['messages'][] = "There are no tickets in the database.";
+}
 
 ?>
 

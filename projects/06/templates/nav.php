@@ -62,6 +62,9 @@
             <a href="articles.php" class="navbar-item">
                 Manage Articles
             </a>
+            <a href="tickets.php" class="navbar-item">
+                Manage Tickets
+            </a>
         </div>
     </div>
 <?php endif; ?>
@@ -103,6 +106,11 @@
             </section>
         <?php endif; ?>
         <!--END USER MESSAGE -->
+        <?php if (isset($_SESSION['loggedin'])) : ?>
+            <a class="button is-light" href="ticket_create.php">
+                <strong>Support</strong>
+            </a>
+        <?php endif; ?>
 
     </header>
     <!--END PAGE HEADER-->
