@@ -19,8 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $priority = htmlspecialchars($_POST['priority']);
 
     // Insert the new ticket into the database / SQL query 
-    $stmt = $pdo->prepare("INSERT INTO `tickets` (`title`, `description`, `priority`) VALUES (?, ?, ?)");
-    $stmt->execute([$title, $description, $priority]);
+    $stmt = $pdo->prepare("INSERT INTO `tickets` (`user_id`, `title`, `description`, `priority`) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$_SESSION['user_id'], $title, $description, $priority]);
 
     // Success message
     $_SESSION['messages'][] = "The ticket was successfully added.";

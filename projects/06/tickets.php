@@ -11,6 +11,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
 }
 
 // Prepared statement that retrieves all the tickets in descending order by creation date from the tickets table
+$stmt = $pdo->prepare('SELECT * FROM `tickets` ORDER BY `created_at` DESC');
 
 // Execute the query
 $stmt->execute();
