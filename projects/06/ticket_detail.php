@@ -29,9 +29,9 @@ if (isset($_GET['id'])) {
 }
 
 //2 Fetch comments for the ticket
-$comments_stmt = $pdo->prepare("SELECT * FROM comments WHERE ticket_id = ? ORDER BY created_at DESC");
+$comments_stmt = $pdo->prepare("SELECT * FROM ticket_comments WHERE ticket_id = ? ORDER BY created_at DESC");
 $comments_stmt->execute([$ticket_id]);
-$comments = $comments_stmt->fetchAll(PDO::FETCH_ASSOC);
+$ticket_comments = $comments_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //3 Update ticket status when the user clicks the status link
 if (isset($_GET['status'])) {
@@ -47,7 +47,7 @@ if (isset($_GET['status'])) {
 //4 Check if the comment form has been submitted. If true, then INSERT the ticket comment
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['msg'])) {
     $comment = $_POST['msg'];
-    $insert_stmt = $pdo->prepare("INSERT INTO `comments` (`ticket_id`, `comment`, `created_at`) VALUES (?, ?, NOW())");
+    $insert_stmt = $pdo->prepare("INSERT INTO `ticket_comments` (`ticket_id`, `user_id`, `comment`, `created_at`) VALUES (?, ?, ?, NOW())");
     $insert_stmt->execute([$ticket_id, $comment]);
 
     $_SESSION['messages'][] = "Comment added.";

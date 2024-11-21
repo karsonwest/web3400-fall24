@@ -16,9 +16,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['user_role'] !== 'admin') {
 if (isset($_GET['id'])) {
     $stmt = $pdo->prepare('SELECT * FROM tickets WHERE id = ?');
     $stmt->execute([$_GET['id']]);
-    $article = $stmt->fetch(PDO::FETCH_ASSOC);
+    $ticket = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$article) {
+    if (!$ticket) {
         $_SESSION['messages'][] = "A ticket with that ID did not exist.";
     }
 

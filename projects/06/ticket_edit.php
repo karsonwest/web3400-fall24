@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { //similar to the other updates we h
     $priority = htmlspecialchars($_POST['priority']);
 
     // if submitted, update the artcile with the SQL query (based off fields above)
-    $stmt = $pdo->prepare("UPDATE `tickets` SET `title`= ?,`description`= ?, `priority` WHERE `id` = ?");
+    $stmt = $pdo->prepare("UPDATE `tickets` SET `title`= ?,`description`= ?, `priority`= ? WHERE `id` = ?");
     $stmt->execute([$title, $description, $priority, $_GET['id']]);
 
     $_SESSION['messages'][] = "Ticket updated successfully.";
@@ -31,7 +31,7 @@ if (isset($_GET['id'])) {
     // user info from database
     $stmt = $pdo->prepare("SELECT * FROM `tickets` WHERE `id` = ?");
     $stmt->execute([$_GET['id']]);
-    $article = $stmt->fetch();
+    $ticket = $stmt->fetch();
 
  } else {
     $_SESSION['messages'][] = "No tickets with that ID was found in the database";

@@ -17,7 +17,7 @@ $stmt = $pdo->prepare('SELECT * FROM `tickets` ORDER BY `created_at` DESC');
 $stmt->execute();
 
 // Fetch and store the results in the $tickets associative array
-$articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$tickets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Check if the query returned any rows. If not, display the message: "There are no tickets in the database."
 if (!$tickets) {
