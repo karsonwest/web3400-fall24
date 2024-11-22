@@ -8,7 +8,7 @@
                 <a class="navbar-item" href="index.php">
                     <span class="icon-text">
                         <span class="icon">
-                            <i class="fas fa-yin-yang fa-lg"></i>
+                            <i> <img src="logo.jpeg" alt="Imperial logo"></i>
                         </span>
                         <span>&nbsp;<?= $siteName ?></span>
                     </span>
@@ -21,8 +21,31 @@
             </div>
             <div class="navbar-menu">
                 <div class="navbar-start">
-                    <a class="navbar-item" href="#">Home</a>
-                    <a class="navbar-item" href="#">About</a>
+<!-- BEGIN ADMIN MENU -->
+<?php if (isset($_SESSION['loggedin']) && $_SESSION['user_role'] == 'admin') : ?>
+    <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+            <span class="icon">
+                <i class="fas fa-user-cog"></i>
+            </span>
+            <span>Admin</span>
+        </a>
+        <div class="navbar-dropdown">
+            <a href="users_manage.php" class="navbar-item">
+                Manage Users
+            </a>
+            <a href="articles.php" class="navbar-item">
+                Manage Articles
+            </a>
+            <a href="tickets.php" class="navbar-item">
+                Manage Tickets
+            </a>
+            <a href="admin_dashboard.php" class="navbar-item">
+                Dashboard
+            </a>
+        </div>
+    </div>
+<?php endif; ?>
                 </div>
                 <div class="navbar-end">
                     <div class="navbar-item">
@@ -52,29 +75,6 @@
       <a href="login.php" class="button is-link">Login</a>
    <?php endif; ?>
 <!-- END USER MENU -->
-<!-- BEGIN ADMIN MENU -->
-<?php if (isset($_SESSION['loggedin']) && $_SESSION['user_role'] == 'admin') : ?>
-    <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-            <span class="icon">
-                <i class="fas fa-user-cog"></i>
-            </span>
-            <span>Admin</span>
-        </a>
-        <div class="navbar-dropdown">
-            <a href="users_manage.php" class="navbar-item">
-                Manage Users
-            </a>
-            <a href="articles.php" class="navbar-item">
-                Manage Articles
-            </a>
-            <a href="tickets.php" class="navbar-item">
-                Manage Tickets
-            </a>
-        </div>
-    </div>
-<?php endif; ?>
-<!-- END ADMIN MENU -->
                         </div>
                     </div>
                 </div>
@@ -89,12 +89,13 @@
       <p class="title">
         Do you want to bring peace and order to the Galaxy?
       </p>
+      <br>
       <p class="subtitle">
         The Empire has the resources to accomplish this goal
       </p>
       <a href="contact.php" class="button is-medium is-info is-light is-rounded">
         <span class="icon is-large">
-          <i class="fab fa-2x fa-pagelines"></i>
+          <i><img src="logo.jpeg" alt="Imperial logo"></i>
         </span>
         <span>Enlist in the Empire today</span>
       </a>
