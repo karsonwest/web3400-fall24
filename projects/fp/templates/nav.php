@@ -1,6 +1,11 @@
 
     <!--BEGIN PAGE HEADER-->
     <header class="container">
+    <style>
+        nav {
+            background-image: url('navbar.jpg');
+            }
+    </style>
 
         <!--BEGIN MAIN NAV-->
         <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">

@@ -65,6 +65,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!-- BEGIN YOUR CONTENT -->
 <section class="section">
+<style>
+body {
+  background-image: url('Background.jpg');
+}
+</style>
     <h1 class="title">Login</h1>
     <form class="box" action="login.php" method="post">
         <!-- Email -->

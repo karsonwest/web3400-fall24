@@ -305,7 +305,7 @@ $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
          </div>
     </div>
     <div class="column is-6">
-    <div class="panel is-success">
+    <div class="panel">
     <p class="panel-heading">Contact Us Messages</p>
     <div class="panel-block">
         <table class="table is-bordered is-striped is-hoverable is full-width">
